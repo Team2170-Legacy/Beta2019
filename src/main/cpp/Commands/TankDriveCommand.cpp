@@ -30,7 +30,7 @@ void TankDriveCommand::Initialize() {
 void TankDriveCommand::Execute() {
     // Get joystick values from OI class
     double left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    double right = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+    double right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
 
     Robot::driveTrain->TankDrive(left, right);
 }
