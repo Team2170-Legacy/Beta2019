@@ -28,7 +28,11 @@ void TankDriveCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TankDriveCommand::Execute() {
+    // Get joystick values from OI class
+    double left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    double right = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kRightHand);
 
+    Robot::driveTrain->TankDrive(left, right);
 }
 
 // Make this return true when this Command no longer needs to run execute()

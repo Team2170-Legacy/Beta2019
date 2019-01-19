@@ -52,3 +52,8 @@ void DriveTrain::Periodic() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
+void DriveTrain::TankDrive(double left, double right) {
+    differentialDrive->TankDrive(left, right);
+}
+
+
