@@ -60,8 +60,7 @@ void DriveTrain::Periodic() {
 
 void DriveTrain::TankDrive(double left, double right) {
     //std::cout << left << "\t\t" << right << std::endl;
-    //differentialDrive->TankDrive(left, right);
-    sparkMax1->Set(0.5);
+    differentialDrive->TankDrive(left, right);
 }
 
 
