@@ -51,7 +51,8 @@ void TankDriveCommand::Execute() {
     //std::cout << "Left: " << left << std::endl;
     //std::cout << "Right: " << right << std::endl;
 
-    Robot::driveTrain->TankDrive(left, right);
+    //Robot::driveTrain->TankDrive(left, right);
+    Robot::driveTrain->ArcadeDrive();
 
     Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
     //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());

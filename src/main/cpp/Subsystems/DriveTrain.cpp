@@ -60,4 +60,12 @@ void DriveTrain::TankDrive(double left, double right) {
     differentialDrive->TankDrive(left, right);
 }
 
+void DriveTrain::ArcadeDrive() {
+    // Get joystick(s)
+    double leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    double leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
+
+    differentialDrive->ArcadeDrive(leftMove, leftRotate);
+}
+
 
