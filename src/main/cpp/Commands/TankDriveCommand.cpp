@@ -10,6 +10,7 @@
 
 
 #include "Commands/TankDriveCommand.h"
+#include "Commands/TeleopDriveStraight.h"
 #include <iostream>
 
 double left;
@@ -51,6 +52,9 @@ void TankDriveCommand::Execute() {
     //std::cout << "Right: " << right << std::endl;
 
     Robot::driveTrain->TankDrive(left, right);
+
+    Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
+    //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());
 }
 
 // Make this return true when this Command no longer needs to run execute()
