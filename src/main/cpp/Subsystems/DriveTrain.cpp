@@ -65,6 +65,8 @@ void DriveTrain::ArcadeDrive() {
     double leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
     double leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
+    std::cout << "Move: " << leftMove << "\t\t" << "Rotate: " << leftRotate << std::endl; 
+
     differentialDrive->ArcadeDrive(leftMove, leftRotate);
 }
 
