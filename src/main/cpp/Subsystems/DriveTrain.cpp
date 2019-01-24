@@ -64,6 +64,9 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     // Get joystick(s)
     double y = leftMove;
     double x = leftRotate;
+
+    std::cout << "Move: " << leftMove << "\t\t" << "Rotate: " << leftRotate << std::endl;
+
     differentialDrive->ArcadeDrive(y, x);
 
 }
