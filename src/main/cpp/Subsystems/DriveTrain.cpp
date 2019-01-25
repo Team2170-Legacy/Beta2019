@@ -77,7 +77,7 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
         y+=0.5;
     } //set the max speeds of the x and y axes to 0.5. 
 
-    std::cout << "Move: " << leftMove << "\t\t" << "Rotate: " << leftRotate << std::endl;
+    std::cout << "Move: " << x << "\t\t" << "Rotate: " << y << std::endl;
 
     differentialDrive->ArcadeDrive(y, x);
 
