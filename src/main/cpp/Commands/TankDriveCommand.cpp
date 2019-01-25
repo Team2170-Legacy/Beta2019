@@ -60,6 +60,11 @@ void TankDriveCommand::Execute() {
     leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
     leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
+    (leftMove>0.5) ? (leftMove - 0.5) : leftMove;
+    (leftMove<-0.5) ? (leftMove + 0.5) : leftMove;
+    (leftRotate>0.5) ? (leftRotate - 0.5) : leftRotate;
+    (leftRotate<-0.5) ? (leftRotate + 0.5) : leftRotate;
+
     Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
     //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());
