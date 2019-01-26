@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 #include "Subsystems/DriveTrain.h"
 #include "Commands/TankDriveCommand.h"
 #include <iostream>
@@ -30,6 +29,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
     // Set follower modes for sparkMax2 and sparkMax4
     sparkMax2->Follow(*sparkMax1);
     sparkMax4->Follow(*sparkMax3);
+
+    // Initialize PID controllers
+    pidControllerL.reset(new rev::CANPIDController(sparkMax1->GetPIDController()));
+    pidControllerR.reset(new rev::CANPIDController(sparkMax3->GetPIDController()));
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -82,6 +85,56 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     differentialDrive->ArcadeDrive(y, x);
 }
 
+void DriveTrain::ClosedLoopVelocityControl() {
+    // read PID coefficients from SmartDashboard
+    double p = frc::SmartDashboard::GetNumber("P Gain", 0);
+    double i = frc::SmartDashboard::GetNumber("I Gain", 0);
+    double d = frc::SmartDashboard::GetNumber("D Gain", 0);
+    double iz = frc::SmartDashboard::GetNumber("I Zone", 0);
+    double ff = frc::SmartDashboard::GetNumber("Feed Forward", 0);
+    double commandedSpeed = frc::SmartDashboard::GetNumber("Commanded Speed: ", 0);
+
+    // if PID coefficients on SmartDashboard have changed, write new values to controller
+    if(p != kP) {
+        pidControllerL->SetP(p); kP = p;
+        pidControllerR->SetP(p); kP = p;  
+    }
+    if(i != kI) {
+        pidControllerL->SetI(i); kI = i;
+        pidControllerR->SetI(i); kI = i;  
+    }
+    if(d != kD) {
+        pidControllerL->SetD(d); kD = d;
+        pidControllerR->SetD(d); kD = d;  
+    }
+    if(iz != kIz) {
+        pidControllerL->SetIZone(iz); kIz = iz;
+        pidControllerR->SetIZone(iz); kIz = iz;  
+    }
+    if(ff != kFF) {
+        pidControllerL->SetFF(ff); kFF = ff;
+        pidControllerR->SetFF(ff); kFF = ff;  
+    }
+
+    // read setpoint from joystick and scale by max rpm
+    double setPointL = maxRPM * commandedSpeed;
+    double setPointR = maxRPM * commandedSpeed;
+
+    // Send setpoints to pid controllers
+    pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
+    pidControllerR->SetReference(setPointR, rev::ControlType::kVelocity);
+
+	// Put editable PID values on Dashboard
+	frc::SmartDashboard::PutNumber("P Gain", kP);
+    frc::SmartDashboard::PutNumber("I Gain", kI);
+    frc::SmartDashboard::PutNumber("D Gain", kD);
+    frc::SmartDashboard::PutNumber("I Zone", kIz);
+    frc::SmartDashboard::PutNumber("Feed Forward", pidControllerL->GetFF());
+	frc::SmartDashboard::PutNumber("Commanded Speed: ", commandedSpeed);
+
+    std::cout << kFF << std::endl;
+}
+
 double DriveTrain::getMotorRPM(int id) {
     double rpm;
 
@@ -112,4 +165,33 @@ double DriveTrain::getRobotSpeed() {
     double speed = (rpm_axle * circumference) / 12.0 / 60.0;  // [ft/s]
 
     return speed;
+}
+
+double DriveTrain::getPIDValues(int id) {
+    // 0 is P, 1 is I, 2 is D, 3 is I zone, 4 is Feed Forward
+    double value;
+
+    switch (id) {
+        case 0:
+            value = kP;
+            break;
+        case 1:
+            value = kI;
+            break;
+        case 2:
+            value = kD;
+            break;
+        case 3:
+            value = kIz;
+            break;
+        case 4:
+            value = kFF;
+            break;
+    }
+
+    return value;
+}
+
+double DriveTrain::getCommandedSpeed() {
+    return commandedSpeed;
 }
