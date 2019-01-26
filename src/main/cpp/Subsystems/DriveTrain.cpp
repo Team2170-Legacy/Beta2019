@@ -65,22 +65,21 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     double y = leftMove;
     double x = leftRotate;
 
-    if(x>0.5){
-        x-=0.5;
-    } else if(x<-0.5){
-        x+=0.5;
-    }
+    // if(x>0.5){
+    //     x-=0.5;
+    // } else if(x<-0.5){
+    //     x+=0.5;
+    // }
 
-    if(y>0.5){
-        y-=0.5;
-    } else if(y<-0.5){
-        y+=0.5;
-    } //set the max speeds of the x and y axes to 0.5. 
+    // if(y>0.5){
+    //     y-=0.5;
+    // } else if(y<-0.5){
+    //     y+=0.5;
+    // } //set the max speeds of the x and y axes to 0.5. 
 
     std::cout << "Move: " << y << "\t\t" << "Rotate: " << x << std::endl;
 
     differentialDrive->ArcadeDrive(y, x);
-
 }
 
 double DriveTrain::getMotorRPM(int id) {
@@ -102,4 +101,15 @@ double DriveTrain::getMotorRPM(int id) {
      }
 
     return rpm;
+}
+
+double DriveTrain::getRobotSpeed() {
+    double rpm = getMotorRPM(1);
+    double rpm_axle = rpm / GEARING_RATIO;
+
+    double circumference = PI*WHEEL_SIZE;
+
+    double speed = (rpm_axle * circumference) / 12.0 / 60.0;  // [ft/s]
+
+    return speed;
 }

@@ -34,6 +34,10 @@ private:
 	std::shared_ptr<frc::SpeedControllerGroup> speedControllerGroupRight;
 	std::shared_ptr<frc::DifferentialDrive> differentialDrive;
 
+	double GEARING_RATIO = 5.95;
+	int WHEEL_SIZE = 4; 			// [in]
+	double PI = 3.14159265358;
+
 public:
 	DriveTrain();
 	void InitDefaultCommand() override;
@@ -46,6 +50,7 @@ public:
 
 	// Functions for the closed-loop velocity
 	double getMotorRPM(int id);
+	double getRobotSpeed();
 };
 
 #endif
