@@ -33,6 +33,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
     // Initialize PID controllers
     pidControllerL.reset(new rev::CANPIDController(sparkMax1->GetPIDController()));
     pidControllerR.reset(new rev::CANPIDController(sparkMax3->GetPIDController()));
+
+    // Set min/max powers
+    pidControllerL->SetOutputRange(kMinOutput, kMaxOutput);
+    pidControllerR->SetOutputRange(kMinOutput, kMaxOutput);
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -129,10 +133,10 @@ void DriveTrain::ClosedLoopVelocityControl() {
     frc::SmartDashboard::PutNumber("I Gain", kI);
     frc::SmartDashboard::PutNumber("D Gain", kD);
     frc::SmartDashboard::PutNumber("I Zone", kIz);
-    frc::SmartDashboard::PutNumber("Feed Forward", pidControllerL->GetFF());
+    frc::SmartDashboard::PutNumber("Feed Forward", kFF);
 	frc::SmartDashboard::PutNumber("Commanded Speed: ", commandedSpeed);
 
-    std::cout << kFF << std::endl;
+    //std::cout << kFF << std::endl;
 }
 
 double DriveTrain::getMotorRPM(int id) {
