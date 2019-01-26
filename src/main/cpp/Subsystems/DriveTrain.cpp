@@ -89,7 +89,7 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     differentialDrive->ArcadeDrive(y, x);
 }
 
-void DriveTrain::ClosedLoopVelocityControl() {
+void DriveTrain::ClosedLoopVelocityControl(double speed) {
     // read PID coefficients from SmartDashboard
     double p = frc::SmartDashboard::GetNumber("P Gain", 0);
     double i = frc::SmartDashboard::GetNumber("I Gain", 0);
@@ -121,8 +121,8 @@ void DriveTrain::ClosedLoopVelocityControl() {
     }
 
     // read setpoint from joystick and scale by max rpm
-    double setPointL = maxRPM * commandedSpeed;
-    double setPointR = maxRPM * commandedSpeed;
+    double setPointL = maxRPM * speed;
+    double setPointR = maxRPM * -speed;
 
     // Send setpoints to pid controllers
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
