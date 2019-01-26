@@ -65,7 +65,6 @@ public:
 	// Functions for the closed-loop velocity
 	double getMotorRPM(int id);
 	double getRobotSpeed();
-	double getPIDValues(int id);
 	double getCommandedSpeed();
 };
 

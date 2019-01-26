@@ -121,8 +121,8 @@ void DriveTrain::ClosedLoopVelocityControl(double speed) {
     }
 
     // read setpoint from joystick and scale by max rpm
-    double setPointL = maxRPM * speed;
-    double setPointR = maxRPM * -speed;
+    double setPointL = maxRPM * commandedSpeed;
+    double setPointR = maxRPM * -commandedSpeed;
 
     // Send setpoints to pid controllers
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
@@ -169,31 +169,6 @@ double DriveTrain::getRobotSpeed() {
     double speed = (rpm_axle * circumference) / 12.0 / 60.0;  // [ft/s]
 
     return speed;
-}
-
-double DriveTrain::getPIDValues(int id) {
-    // 0 is P, 1 is I, 2 is D, 3 is I zone, 4 is Feed Forward
-    double value;
-
-    switch (id) {
-        case 0:
-            value = kP;
-            break;
-        case 1:
-            value = kI;
-            break;
-        case 2:
-            value = kD;
-            break;
-        case 3:
-            value = kIz;
-            break;
-        case 4:
-            value = kFF;
-            break;
-    }
-
-    return value;
 }
 
 double DriveTrain::getCommandedSpeed() {
