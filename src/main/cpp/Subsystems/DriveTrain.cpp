@@ -82,3 +82,24 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     differentialDrive->ArcadeDrive(y, x);
 
 }
+
+double DriveTrain::getMotorRPM(int id) {
+    double rpm;
+
+    switch (id) {
+        case 1:
+            rpm = sparkMax1->GetEncoder().GetVelocity();
+            break;
+        case 2:
+            rpm = sparkMax2->GetEncoder().GetVelocity();
+            break;
+        case 3:
+            rpm = sparkMax3->GetEncoder().GetVelocity();
+            break;
+        case 4:
+            rpm = sparkMax4->GetEncoder().GetVelocity();    
+            break;     
+     }
+
+    return rpm;
+}

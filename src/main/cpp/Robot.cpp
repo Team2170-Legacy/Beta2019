@@ -77,6 +77,10 @@ void Robot::TeleopPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
 }
 
+void Robot::UpdateSmartDashboard() {
+	frc::SmartDashboard::PutNumber("SparkMax1 RPM: ", Robot::driveTrain->getMotorRPM(1));
+}
+
 #ifndef RUNNING_FRC_TESTS
 int main(int argc, char** argv) {
     return frc::StartRobot<Robot>();
