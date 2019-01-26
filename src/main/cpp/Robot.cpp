@@ -75,6 +75,7 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
+	UpdateSmartDashboard();
 }
 
 void Robot::UpdateSmartDashboard() {
