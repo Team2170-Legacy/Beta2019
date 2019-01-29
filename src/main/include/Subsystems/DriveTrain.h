@@ -15,6 +15,9 @@
 #include "frc/WPILib.h"
 #include "ctre/Phoenix.h"
 #include "rev/CANSparkMax.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTableInstance.h"
 
 /**
  *

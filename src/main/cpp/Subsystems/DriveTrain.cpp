@@ -90,7 +90,10 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
 }
 
 void DriveTrain::VisionTargetDrive(){
-    
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("datatable");
+    xEntry = table->GetEntry("X");
+    yEntry = table->GetEntry("Y");
 }
 
 void DriveTrain::ClosedLoopVelocityControl(double speed) {
