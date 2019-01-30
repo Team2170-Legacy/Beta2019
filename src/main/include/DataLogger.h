@@ -4,7 +4,7 @@
 #include <string>
 
 using namespace std;
-/**
+
 class Datalogger {
 public:
     vector<double> rpm;
@@ -14,4 +14,3 @@ public:
     void addTimeStamp(long timestampToAdd);
     void writeToTXTFile(string filename); 
 }
-**/
