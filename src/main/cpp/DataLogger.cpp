@@ -1,4 +1,5 @@
 // This program will act as a data logger for rpm
+/**
 #include "DataLogger.h"
 
 void DataLogger::addRPM(double rpmToAdd) {
@@ -12,3 +13,4 @@ void DataLogger::addTimeStamp(long timestampToAdd){
 void DataLogger::writeToTXTFile(string filename){
 
 }
+**/

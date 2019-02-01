@@ -1,4 +1,5 @@
 // This program will act as a data logger for rpm
+/**
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,3 +15,4 @@ public:
     void addTimeStamp(long timestampToAdd);
     void writeToTXTFile(string filename); 
 }
+**/
