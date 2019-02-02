@@ -47,6 +47,9 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
     pidControllerL->SetFF(kFF);
     pidControllerR->SetFF(kFF);
+
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
 void getMPPosition(int position){
@@ -243,8 +246,6 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
 
 void DriveTrain::VisionTargetDrive(double error)
 {
-    auto inst = nt::NetworkTableInstance::GetDefault();
-    auto table = inst.GetTable("datatable");
     xEntry = table->GetEntry("X");
     yEntry = table->GetEntry("Y");
 }
