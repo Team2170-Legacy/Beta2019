@@ -48,24 +48,24 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
     pidControllerL->SetFF(kFF);
     pidControllerR->SetFF(kFF);
 
-    auto inst = nt::NetworkTableInstance::GetDefault();
-    auto table = inst.GetTable("datatable"); //network table initialized.
+    // auto inst = nt::NetworkTableInstance::GetDefault();
+    // auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
-void getMPPosition(int position){
-    motionProfileStore = new double[10][10];
-    int row = 0
+// void getMPPosition(int position){
+//     motionProfileStore = new double[10][10];
+//     int row = 0
 
-    double initialPos = motionProfileStore[row][row];
-    double finalPosition = motionProfileStore[position][position];
+//     double initialPos = motionProfileStore[row][row];
+//     double finalPosition = motionProfileStore[position][position];
 
-    double dx = finalPosition-initialPosition;
-    double dt = 0.002;
+//     double dx = finalPosition-initialPosition;
+//     double dt = 0.002;
 
-    //to be finished later. 
+//     //to be finished later. 
 
-    row++;
-}
+//     row++;
+// }
 
 void DriveTrain::InitDefaultCommand()
 {
@@ -244,11 +244,11 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
     pidControllerR->SetReference(rightMotorRPM, rev::ControlType::kVelocity);
 }
 
-void DriveTrain::VisionTargetDrive(double error)
-{
-    xEntry = table->GetEntry("X");
-    yEntry = table->GetEntry("Y");
-}
+// void DriveTrain::VisionTargetDrive(double error)
+// {
+//     xEntry = table->GetEntry("X");
+//     yEntry = table->GetEntry("Y");
+// }
 
 void DriveTrain::ClosedLoopVelocityControl(double speed)
 {

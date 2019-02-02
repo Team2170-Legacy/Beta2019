@@ -40,9 +40,9 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMax4;
 	std::shared_ptr<frc::SpeedControllerGroup> speedControllerGroupRight;
 	std::shared_ptr<frc::DifferentialDrive> differentialDrive;
-	double[][] motionProfileStore;
-	nt::NetworkTableEntry xEntry;
-	nt::NetworkTableEntry yEntry;
+	// double[][] motionProfileStore;
+	// nt::NetworkTableEntry xEntry;
+	// nt::NetworkTableEntry yEntry;
 
 	double GEARING_RATIO = 5.95;
 	int WHEEL_SIZE = 4; 			// [in]
@@ -71,17 +71,17 @@ public:
 	void TankDriveVelocity(double left, double right, bool squaredInputs);
 	void ArcadeDrive(double leftMove, double leftRotate);
 	void ArcadeDriveVelocity(double leftMove, double leftRotate, bool squaredInputs);
-	void VisionTargetDrive(double error);
+	//void VisionTargetDrive(double error);
 	void ClosedLoopVelocityControl(double speed);
 
 	// Functions for the closed-loop velocity
 	double getMotorRPM(int id);
 	double getRobotSpeed();
 	double getCommandedSpeed();
-	void setMPPosition(int position);
+	//void setMPPosition(int position);
 
-	nt::NetworkTableEntry getXEntry();
-	nt::NetworkTableEntry getYEntry();
+	// nt::NetworkTableEntry getXEntry();
+	// nt::NetworkTableEntry getYEntry();
 };
 
 #endif
