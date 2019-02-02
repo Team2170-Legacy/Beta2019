@@ -38,6 +38,12 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
     // Set min/max powers
     pidControllerL->SetOutputRange(kMinOutput, kMaxOutput);
     pidControllerR->SetOutputRange(kMinOutput, kMaxOutput);
+
+    pidControllerL->SetP(kP);
+    pidControllerR->SetP(kP);
+
+    pidControllerL->SetFF(kFF);
+    pidControllerR->SetFF(kFF);
 }
 void DriveTrain::InitDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -105,31 +111,38 @@ void DriveTrain::ClosedLoopVelocityControl(double speed) {
     double ff = frc::SmartDashboard::GetNumber("Feed Forward", 0);
     double commandedSpeed = frc::SmartDashboard::GetNumber("Commanded Speed: ", 0);
 
-    // if PID coefficients on SmartDashboard have changed, write new values to controller
-    if(p != kP) {
-        pidControllerL->SetP(p); kP = p;
-        pidControllerR->SetP(p); kP = p;  
+    // // if PID coefficients on SmartDashboard have changed, write new values to controller
+    // if(p != kP) {
+    //     pidControllerL->SetP(p); kP = p;
+    //     pidControllerR->SetP(p); kP = p;  
+    // }
+    // if(i != kI) {
+    //     pidControllerL->SetI(i); kI = i;
+    //     pidControllerR->SetI(i); kI = i;  
+    // }
+    // if(d != kD) {
+    //     pidControllerL->SetD(d); kD = d;
+    //     pidControllerR->SetD(d); kD = d;  
+    // }
+    // if(iz != kIz) {
+    //     pidControllerL->SetIZone(iz); kIz = iz;
+    //     pidControllerR->SetIZone(iz); kIz = iz;  
+    // }
+    // if(ff != kFF) {
+    //     pidControllerL->SetFF(ff); kFF = ff;
+    //     pidControllerR->SetFF(ff); kFF = ff;  
+    // }
+
+    if(speed >0.5){
+        speed -=0.5;
+    } else if(speed <-0.5){
+        speed +=0.5;
     }
-    if(i != kI) {
-        pidControllerL->SetI(i); kI = i;
-        pidControllerR->SetI(i); kI = i;  
-    }
-    if(d != kD) {
-        pidControllerL->SetD(d); kD = d;
-        pidControllerR->SetD(d); kD = d;  
-    }
-    if(iz != kIz) {
-        pidControllerL->SetIZone(iz); kIz = iz;
-        pidControllerR->SetIZone(iz); kIz = iz;  
-    }
-    if(ff != kFF) {
-        pidControllerL->SetFF(ff); kFF = ff;
-        pidControllerR->SetFF(ff); kFF = ff;  
-    }
+    //set the max speeds of the x and y axes to 0.5.
 
     // read setpoint from joystick and scale by max rpm
-    double setPointL = maxRPM * commandedSpeed;
-    double setPointR = maxRPM * -commandedSpeed;
+    double setPointL = maxRPM * speed;
+    double setPointR = maxRPM * -speed;
 
     // Send setpoints to pid controllers
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);

@@ -47,7 +47,7 @@ private:
 	std::shared_ptr<rev::CANPIDController> pidControllerR;
 
 	// PID Gains
-	double kP = 0, kI = 0, kD = 0, kIz = 0, kFF = 1.75e-4, kMaxOutput = 1, kMinOutput = -1;
+	double kP = 4.0e-4, kI = 0, kD = 0, kIz = 0, kFF = 1.75e-4, kMaxOutput = 1, kMinOutput = -1;
 	// EDIT THESE VALUES LATER
 
 	// Max RPM for motors
