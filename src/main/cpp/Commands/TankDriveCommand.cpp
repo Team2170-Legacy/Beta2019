@@ -70,7 +70,7 @@ void TankDriveCommand::Execute() {
             break;
         case arcadeDriveVelocity:
             leftMove = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-            leftRotate = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+            leftRotate = Robot::oi->getJoystickRight()->GetX(frc::GenericHID::JoystickHand::kRightHand);
             leftMove = -leftMove;
             Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
             break;
