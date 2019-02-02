@@ -107,6 +107,9 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate)
 
 void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool squaredInputs)
 {
+    double moveValue = leftMove;
+    double rotateValue = leftRotate;
+
     static bool reported = false;
     if (!reported)
     {
@@ -120,51 +123,51 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
     double rightMotorOutput;
 
     // LeftMove and leftRotate limits to +-1.0
-    if (leftMove > 1.0) {
-        leftMove = 1.0;
+    if (moveValue > 1.0) {
+        moveValue = 1.0;
     }
-    if (leftMove < -1.0) {
-        leftMove = -1.0;
+    if (moveValue < -1.0) {
+        moveValue = -1.0;
     }
-    if (leftRotate > 1.0) {
-        leftRotate = 1.0;
+    if (rotateValue > 1.0) {
+        rotateValue = 1.0;
     }
-    if (leftRotate < -1.0) {
-        leftRotate = -1.0;
+    if (rotateValue < -1.0) {
+        rotateValue = -1.0;
     }
 
     // square the inputs (while preserving the sign) to increase fine control
     // while permitting full power
     if (squaredInputs)
     {
-        leftMove = std::copysign(leftMove * leftMove, leftMove);
-        leftRotate = std::copysign(leftRotate * leftRotate, leftRotate);
+        moveValue = std::copysign(moveValue * moveValue, moveValue);
+        rotateValue = std::copysign(rotateValue * rotateValue, rotateValue);
     }
 
-    if (leftMove > 0.0)
+    if (moveValue > 0.0)
     {
-        if (leftRotate > 0.0)
+        if (rotateValue > 0.0)
         {
-            leftMotorOutput = leftMove - leftRotate;
-            rightMotorOutput = std::max(leftMove, leftRotate);
+            leftMotorOutput = moveValue - rotateValue;
+            rightMotorOutput = std::max(moveValue, rotateValue);
         }
         else
         {
-            leftMotorOutput = std::max(leftMove, -leftRotate);
-            rightMotorOutput = leftMove + leftRotate;
+            leftMotorOutput = std::max(moveValue, -rotateValue);
+            rightMotorOutput = moveValue + rotateValue;
         }
     }
     else
     {
-        if (leftRotate > 0.0)
+        if (rotateValue > 0.0)
         {
-            leftMotorOutput = -std::max(-leftMove, leftRotate);
-            rightMotorOutput = leftMove + leftRotate;
+            leftMotorOutput = -std::max(-moveValue, rotateValue);
+            rightMotorOutput = moveValue + rotateValue;
         }
         else
         {
-            leftMotorOutput = leftMove - leftRotate;
-            rightMotorOutput = -std::max(-leftMove, -leftRotate);
+            leftMotorOutput = moveValue - rotateValue;
+            rightMotorOutput = -std::max(-moveValue, -rotateValue);
         }
     }
 
