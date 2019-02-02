@@ -60,32 +60,21 @@ void TankDriveCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TankDriveCommand::Execute() {
-    // Get joystick values from OI class periodically. 
-    left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
-    
-    //std::cout << "Left: " << left << std::endl;
-    //std::cout << "Right: " << right << std::endl;
+    double left, right, leftMove, leftRotate;
 
-    //Robot::driveTrain->TankDrive(left, right);
-    //leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    //leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
-
-    // leftMove = -leftMove;
-
-    // if (leftMove > 0 && leftMove <= 0.05){
-    //     leftMove = 0.0;
-    // }
-    // if (leftMove < 0 && leftMove >= -0.05) {
-    //     leftMove = 0.0;
-    // }
-
-    Robot::driveTrain->TankDriveVelocity(left, right, false);
-    //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
-    //Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
-    //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
-    //Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
-    //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());
+    switch(driveMode) {
+        case tankDriveVelocity:
+            left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+            right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+            Robot::driveTrain->TankDriveVelocity(left, right, false);
+            break;
+        case arcadeDriveVelocity:
+            leftMove = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+            leftRotate = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+            leftMove = -leftMove;
+            Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
+            break;
+    }
 
     if (logData) {
         // Datalogger
