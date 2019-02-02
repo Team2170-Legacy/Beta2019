@@ -14,8 +14,8 @@
 #include "frc/RobotController.h"
 #include <iostream>
 
-//double left;
-//double right; //create the variables here so they can be used in all methods of this class. 
+double left;
+double right; //create the variables here so they can be used in all methods of this class. 
 
 double leftMove;
 double leftRotate;
@@ -33,12 +33,11 @@ TankDriveCommand::TankDriveCommand(): frc::Command() {
 
 // Called just before this Command runs the first time
 void TankDriveCommand::Initialize() {
-    //left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    //right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+    left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
 
-    leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
-    //acquire first value. 
+    //leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    //leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
     //(left!=0.0) ? 0.0 : left;
     //(right!=0.0) ? 0.0 : right;
@@ -46,9 +45,10 @@ void TankDriveCommand::Initialize() {
     (leftMove!=0) ? 0.0 : leftMove;
     (leftRotate!=0) ? 0.0 : leftRotate;
 
+    Robot::driveTrain->TankDriveVelocity(left, right, false);
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
-    Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
+    //Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
 
     if (logData) {
         std::cout << "Timestamp [ms]" << "\t\t" << "Motor RPM" << std::endl;
@@ -59,27 +59,28 @@ void TankDriveCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void TankDriveCommand::Execute() {
     // Get joystick values from OI class periodically. 
-    //left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    //right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+    left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
     
     //std::cout << "Left: " << left << std::endl;
     //std::cout << "Right: " << right << std::endl;
 
     //Robot::driveTrain->TankDrive(left, right);
-    leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
+    //leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    //leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
-    leftMove = -leftMove;
+    // leftMove = -leftMove;
 
-    if (leftMove > 0 && leftMove <= 0.05){
-        leftMove = 0.0;
-    }
-    if (leftMove < 0 && leftMove >= -0.05) {
-        leftMove = 0.0;
-    }
+    // if (leftMove > 0 && leftMove <= 0.05){
+    //     leftMove = 0.0;
+    // }
+    // if (leftMove < 0 && leftMove >= -0.05) {
+    //     leftMove = 0.0;
+    // }
 
+    Robot::driveTrain->TankDriveVelocity(left, right, false);
     //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
-    Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
+    //Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
     //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());

@@ -77,6 +77,49 @@ void DriveTrain::TankDrive(double left, double right)
     differentialDrive->TankDrive(left, right);
 }
 
+void DriveTrain::TankDriveVelocity(double left, double right, bool squaredInputs)
+{
+    static bool reported = false;
+    if (!reported)
+    {
+        HAL_Report(HALUsageReporting::kResourceType_RobotDrive, 4,
+                   HALUsageReporting::kRobotDrive_Tank);
+        reported = true;
+    }
+
+    if (left > 1.0)
+    {
+        left = 1.0;
+    }
+    if (left < -1.0)
+    {
+        left = -1.0;
+    }
+    if (right > 1.0)
+    {
+        right = 1.0;
+    }
+    if (right < -1.0)
+    {
+        right = -1.0;
+    }
+
+    // square the inputs (while preserving the sign) to increase fine control
+    // while permitting full power
+    if (squaredInputs)
+    {
+        left = std::copysign(left * left, left);
+        right = std::copysign(right * right, right);
+    }
+
+    double leftMotorRPM = left * maxRPM;
+    double rightMotorRPM = right * -maxRPM;
+
+    // Send setpoints to pid controllers
+    pidControllerL->SetReference(leftMotorRPM, rev::ControlType::kVelocity);
+    pidControllerR->SetReference(rightMotorRPM, rev::ControlType::kVelocity);
+}
+
 void DriveTrain::ArcadeDrive(double leftMove, double leftRotate)
 {
     // Get joystick(s)
@@ -123,16 +166,20 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
     double rightMotorOutput;
 
     // LeftMove and leftRotate limits to +-1.0
-    if (moveValue > 1.0) {
+    if (moveValue > 1.0)
+    {
         moveValue = 1.0;
     }
-    if (moveValue < -1.0) {
+    if (moveValue < -1.0)
+    {
         moveValue = -1.0;
     }
-    if (rotateValue > 1.0) {
+    if (rotateValue > 1.0)
+    {
         rotateValue = 1.0;
     }
-    if (rotateValue < -1.0) {
+    if (rotateValue < -1.0)
+    {
         rotateValue = -1.0;
     }
 
