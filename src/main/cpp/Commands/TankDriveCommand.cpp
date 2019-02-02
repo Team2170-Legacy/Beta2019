@@ -11,6 +11,7 @@
 
 #include "Commands/TankDriveCommand.h"
 #include "Commands/TeleopDriveStraight.h"
+#include "frc/RobotController.h"
 #include <iostream>
 
 //double left;
@@ -46,6 +47,9 @@ void TankDriveCommand::Initialize() {
 
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
+
+    std::cout << "Timestamp [ms]" << "\t\t" << "Motor RPM" << std::endl;
+    std::cout << "-------------------------------------------------------------" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -65,6 +69,10 @@ void TankDriveCommand::Execute() {
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
     //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());
+
+    // Datalogger
+    long time = frc::RobotController::GetFPGATime() / 1e3;      // / 1e6 bc unit is microsecond
+    std::cout << (double)time << "\t\t" << Robot::driveTrain->getMotorRPM(1) << std::endl;
 }
 
 // Make this return true when this Command no longer needs to run execute()
