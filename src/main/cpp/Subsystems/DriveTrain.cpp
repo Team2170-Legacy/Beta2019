@@ -134,9 +134,11 @@ void DriveTrain::ClosedLoopVelocityControl(double speed) {
     // }
 
     if(speed >0.5){
-        speed -=0.5;
+        double difference = speed-0.5;
+        speed -= difference;
     } else if(speed <-0.5){
-        speed +=0.5;
+        double difference = speed+0.5;
+        speed += difference;
     }
     //set the max speeds of the x and y axes to 0.5.
 
