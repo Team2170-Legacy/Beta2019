@@ -47,8 +47,8 @@ void TankDriveCommand::Initialize() {
     (leftRotate!=0) ? 0.0 : leftRotate;
 
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
-
-    Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
+    //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
+    Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
 
     if (logData) {
         std::cout << "Timestamp [ms]" << "\t\t" << "Motor RPM" << std::endl;
@@ -76,7 +76,8 @@ void TankDriveCommand::Execute() {
         leftMove = 0.0;
     }
 
-    Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
+    //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
+    Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::oi->getThumbLeft()->WhileHeld(new TeleopDriveStraight());
     //Robot::oi->getThumbLeft->ToggleWhenPressed(new TeleopDriveStraight());
