@@ -69,10 +69,10 @@ void TankDriveCommand::Execute() {
     leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
     leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
-    if (leftMove > 0 && leftMove <= 0.05){
+    if (leftMove > 0 && leftMove <= 0.1){
         leftMove = 0.0;
     }
-    if (leftMove < 0 && leftMove >= -0.05) {
+    if (leftMove < 0 && leftMove >= -0.1) {
         leftMove = 0.0;
     }
 

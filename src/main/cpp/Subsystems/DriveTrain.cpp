@@ -81,17 +81,22 @@ void DriveTrain::ArcadeDrive(double leftMove, double leftRotate) {
     double y = leftMove;
     double x = leftRotate;
 
-    // if(x>0.5){
-    //     x-=0.5;
-    // } else if(x<-0.5){
-    //     x+=0.5;
+    // if(x > 0.5){
+    //     double difference = x-0.5;
+    //     x -= difference;
+    // } else if(x < -0.5){
+    //      double difference = x+0.5;
+    //     x += difference;
     // }
 
-    // if(y>0.5){
-    //     y-=0.5;
-    // } else if(y<-0.5){
-    //     y+=0.5;
-    // } //set the max speeds of the x and y axes to 0.5. 
+    // if(y > 0.5){
+    //     double difference = y-0.5;
+    //     y -= difference;
+    // } else if(y < -0.5){
+    //      double difference = y+0.5;
+    //     y += difference;
+    // }
+    //set the max speeds of the x and y axes to 0.5. 
 
     //-std::cout << "Move: " << y << "\t\t" << "Rotate: " << x << std::endl;
 
@@ -137,7 +142,7 @@ void DriveTrain::ClosedLoopVelocityControl(double speed) {
         double difference = speed+0.5;
         speed += difference;
     }
-    //set the max speeds of the x and y axes to 0.5.
+    //set the max speeds of the axis to 0.5.
 
     // read setpoint from joystick and scale by max rpm
     double setPointL = maxRPM * speed;
