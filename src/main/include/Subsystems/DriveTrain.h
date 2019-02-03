@@ -40,7 +40,6 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMax4;
 	std::shared_ptr<frc::SpeedControllerGroup> speedControllerGroupRight;
 	std::shared_ptr<frc::DifferentialDrive> differentialDrive;
-	// double[][] motionProfileStore;
 	// nt::NetworkTableEntry xEntry;
 	// nt::NetworkTableEntry yEntry;
 
@@ -55,7 +54,9 @@ private:
 	// PID Gains
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
 	// EDIT THESE VALUES LATER
-
+	const double vmax = 560.0; //in RPM
+	double timeResponse = 0.002;
+	double initialPosition = 0;
 	// Max RPM for motors
 	const double maxRPM = 5600;
 
@@ -78,7 +79,7 @@ public:
 	double getMotorRPM(int id);
 	double getRobotSpeed();
 	double getCommandedSpeed();
-	//void setMPPosition(int position);
+	//int MotionProfilePosition(double timeResponse, int arrCol);
 
 	// nt::NetworkTableEntry getXEntry();
 	// nt::NetworkTableEntry getYEntry();
