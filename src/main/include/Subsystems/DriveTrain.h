@@ -54,9 +54,13 @@ private:
 	// PID Gains
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
 	// EDIT THESE VALUES LATER
+
 	const double vmax = 560.0; //in RPM
-	double timeResponse = 0.002;
-	double initialPosition = 0;
+	const double dT = 0.002;
+	double initialPosition = 0;		//motion profile vals to be edited later. 
+	const double robotRadius = 300.0;
+	const double wheelRadius = 30.0;
+
 	// Max RPM for motors
 	const double maxRPM = 5600;
 
@@ -79,7 +83,7 @@ public:
 	double getMotorRPM(int id);
 	double getRobotSpeed();
 	double getCommandedSpeed();
-	//int MotionProfilePosition(double timeResponse, int arrCol);
+	//int MotionProfilePosition(double dT, int arrRow);
 
 	// nt::NetworkTableEntry getXEntry();
 	// nt::NetworkTableEntry getYEntry();
