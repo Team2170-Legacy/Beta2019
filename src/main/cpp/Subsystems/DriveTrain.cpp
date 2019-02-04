@@ -306,6 +306,52 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
 // {
 //     xEntry = table->GetEntry("X");
 //     yEntry = table->GetEntry("Y");
+//     double x, y;
+//     xEntry.SetDouble(x);
+//     yEntry.SetDouble(y); //put the network table instances into the doubles. 
+
+//     double distanceHorizontal;
+//     double distanceVertical;
+//     double theta;
+//     double turnTheta;
+//     double distanceHyp;
+//     double arcTurnDistance;
+//     double totalDistance;
+//     double wheelsRevs;
+//     String turnDirection;
+
+//     distanceVertical = y; 
+//     distanceHorizontal = x;
+//     //get the distance that needs to be travelled horizontally and vertically.
+
+//     (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
+//     distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
+
+//     //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
+
+//     turnTheta;
+//     if(theta == 90){
+//         turnTheta = 90;
+//     } else {if(distanceVertical < 0){
+//         turnTheta = 90-theta;
+//     } else if(distanceVertical > 0){
+//         turnTheta = theta;
+//     } //how many degrees does robot turn?
+
+//     turnDirection = NULL;
+//     if(distanceHorizontal < 0){
+//         turnDirection = "Left";
+//     } else if(distanceHorizontal > 0){
+//         turnDirection = "right";
+//     } //which way does robot turn?
+
+//     arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
+//     totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
+
+//     wheelsRevs = (distanceHyp)/(2 * Math.pi * robotRadius); //to get to final position. Excluding turn revs.
+    
+//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!put it into arcade drive to move robot!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 // }
 
 void DriveTrain::ClosedLoopVelocityControl(double speed)
