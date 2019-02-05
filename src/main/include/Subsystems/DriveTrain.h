@@ -45,8 +45,6 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMax4;
 	std::shared_ptr<frc::SpeedControllerGroup> speedControllerGroupRight;
 	std::shared_ptr<frc::DifferentialDrive> differentialDrive;
-	nt::NetworkTableEntry xEntry;
-	nt::NetworkTableEntry yEntry;
 
 	double GEARING_RATIO = 5.95;
 	int WHEEL_DIAMETER = 4; 			// [in]
