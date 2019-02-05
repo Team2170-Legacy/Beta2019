@@ -24,12 +24,14 @@ VisionDrive::VisionDrive(): frc::Command() {
 
 // Called just before this Command runs the first time
 void VisionDrive::Initialize() {
-
+    Robot::driveTrain->resetGyro();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void VisionDrive::Execute() {
+    double currentBearing = Robot::driveTrain->getGyroAngle();
 
+    Robot::driveTrain->TankDriveVelocityError(4.0, currentBearing);
 }
 
 // Make this return true when this Command no longer needs to run execute()

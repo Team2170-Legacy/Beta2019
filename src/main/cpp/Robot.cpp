@@ -81,6 +81,7 @@ void Robot::TeleopPeriodic() {
 void Robot::UpdateSmartDashboard() {
 	frc::SmartDashboard::PutNumber("SparkMax1 RPM: ", Robot::driveTrain->getMotorRPM(1));
 	frc::SmartDashboard::PutNumber("Wheel Speed: ", Robot::driveTrain->getRobotSpeed());
+	frc::SmartDashboard::PutNumber("Robot Bearing: ", Robot::driveTrain->getGyroAngle());
 
 	frc::SmartDashboard::UpdateValues();
 }

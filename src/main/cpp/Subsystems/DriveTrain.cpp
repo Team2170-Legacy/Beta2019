@@ -464,13 +464,12 @@ double DriveTrain::getCommandedSpeed()
     return commandedSpeed;
 }
 
-void DriveTrain::TankDriveVelocityError(double left_FPS, double right_FPS, double error) {
+void DriveTrain::TankDriveVelocityError(double velocity, double error) {
     // Left and right are [ft/s]
-    double left_RPM = fpsToRPM(left_FPS);
-    double right_RPM = fpsToRPM(right_FPS);
+    double velocity_RPM = fpsToRPM(velocity);
 
-    double setPointL = left_RPM + (kP_Vision * error);
-    double setPointR = right_RPM - (kP_Vision * error);
+    double setPointL = velocity_RPM + (kP_Vision * error);
+    double setPointR = velocity_RPM - (kP_Vision * error);
 
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
     pidControllerR->SetReference(setPointR, rev::ControlType::kVelocity);
@@ -496,4 +495,12 @@ double DriveTrain::joystickToFPS(double joystickValue){
     double rpm = joystickValue * maxRPM;
 
     return rpmToFPS(rpm);
-} 
+}
+
+void DriveTrain::resetGyro() {
+    analogGyro->Reset();
+}
+
+double DriveTrain::getGyroAngle() {
+    return analogGyro->GetAngle(); // [deg]
+}

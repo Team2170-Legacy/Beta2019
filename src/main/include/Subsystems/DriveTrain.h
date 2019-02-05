@@ -97,7 +97,11 @@ public:
 	double rpmToFPS(double rpm);
 	double joystickToFPS(double joystickValue);
 
-	void TankDriveVelocityError(double left, double right, double error);
+	// Gyro methods
+	void resetGyro();
+	double getGyroAngle();
+
+	void TankDriveVelocityError(double velocity, double error);
 
 	nt::NetworkTableEntry getXEntry();
 	nt::NetworkTableEntry getYEntry();
