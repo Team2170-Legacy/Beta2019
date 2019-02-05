@@ -94,8 +94,8 @@ public:
 
 	void TankDriveVelocityError(double left, double right, double error);
 
-	// nt::NetworkTableEntry getXEntry();
-	// nt::NetworkTableEntry getYEntry();
+	nt::NetworkTableEntry getXEntry();
+	nt::NetworkTableEntry getYEntry();
 };
 
 #endif
