@@ -44,16 +44,18 @@ private:
 	// nt::NetworkTableEntry yEntry;
 
 	double GEARING_RATIO = 5.95;
-	int WHEEL_SIZE = 4; 			// [in]
+	int WHEEL_DIAMETER = 4; 			// [in]
 	double PI = 3.14159265358;
 
 	// Members for closed-loop velocity control
 	std::shared_ptr<rev::CANPIDController> pidControllerL;
 	std::shared_ptr<rev::CANPIDController> pidControllerR;
 
-	// PID Gains
+	// PID Gains for closed-loop velocity control
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
-	// EDIT THESE VALUES LATER
+	
+	// PID Gains for closed-loop velocity control FOR VISION 
+	double kP_Vision = 0;
 
 	const double vmax = 560.0; //in RPM
 	const double dT = 0.002;
@@ -84,6 +86,13 @@ public:
 	double getRobotSpeed();
 	double getCommandedSpeed();
 	//int MotionProfilePosition(double dT, int arrRow);
+
+	// Helper functions
+	double fpsToRPM(double FPS);
+	double rpmToFPS(double rpm);
+	double joystickToFPS(double joystickValue);
+
+	void TankDriveVelocityError(double left, double right, double error);
 
 	// nt::NetworkTableEntry getXEntry();
 	// nt::NetworkTableEntry getYEntry();
