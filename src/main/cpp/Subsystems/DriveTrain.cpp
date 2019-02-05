@@ -122,8 +122,8 @@ int MotionProfilePosition(double dT, int arrRow) {
     wheelsRevs = (distanceHyp)/(2 * Math.pi * wheelRadius); //to get to final position. Excluding turn revs.
     velocityBot = wheelsRevs/(dT/60); //RPM
 
-    pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
-    pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+    pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
 
     return 1;
 }
@@ -182,8 +182,8 @@ void DriveTrain::VisionTargetDrive(double error) {
         pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity);
     }
 
-    pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
-    pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+    pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
 }
 
 void DriveTrain::InitDefaultCommand()
