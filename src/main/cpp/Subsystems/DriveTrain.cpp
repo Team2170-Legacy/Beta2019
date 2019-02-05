@@ -50,8 +50,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
     pidControllerL->SetFF(kFF);
     pidControllerR->SetFF(kFF);
 
-    // auto inst = nt::NetworkTableInstance::GetDefault();
-    // auto table = inst.GetTable("datatable"); //network table initialized.
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
 /** Takes values pre-entered into an external file and moves robot to specified positions.
@@ -59,71 +59,126 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
  * be given. 
  * post: moves robot to external file's positions according to ping time. 
  **/
-// int MotionProfilePosition(double dT, int arrRow){
-//     ifstream inFile;
-//     inFile.open("something");
-//     if(!inFile){
-//         cerr << "File not found";
-//         return 0; //exits back to teleop if file is not found. 
-//     }
-//     std::vector< std::vector<double> > positionValues; //vector to store the position value
-//                                                 // across and up to get to the specified area. 
+int MotionProfilePosition(double dT, int arrRow) {
+    ifstream inFile;
+    inFile.open("something.exe");
+    if(!inFile){
+        cerr << "File not found";
+        return 0; //exits back to teleop if file is not found. 
+    }
+    std::vector< std::vector<double> > positionValues; //vector to store the position value
+                                                // across and up to get to the specified area. 
     
-//     while(!inFile.eof()){
-//          std::vector<double> positions; //create new sub vector. 
-//          double temp; //temp to load inFIle vars. 
-//          for(int cols = 0; cols < 2; cols++){
-//              inFile >> temp;
-//              positions.push_back(temp); //the x and y distances are loaded into sub vector
-//          }
-//          positionValues.push_back(positions); //sub vector loaded into vector. 
-//     }
-//     inFile.close();
+    while(!inFile.eof()){
+         std::vector<double> positions; //create new sub vector. 
+         double temp; //temp to load inFIle vars. 
+         for(int cols = 0; cols < 2; cols++){
+             inFile >> temp;
+             positions.push_back(temp); //the x and y distances are loaded into sub vector
+         }
+         positionValues.push_back(positions); //sub vector loaded into vector. 
+    }
+    inFile.close();
 
-//     double distanceHorizontal;
-//     double distanceVertical;
-//     double theta;
-//     double turnTheta;
-//     double distanceHyp;
-//     double arcTurnDistance;
-//     double totalDistance;
-//     double wheelsRevs;
-//     String turnDirection;
+    double distanceHorizontal;
+    double distanceVertical;
+    double theta;
+    double turnTheta;
+    double distanceHyp;
+    double arcTurnDistance;
+    double totalDistance;
+    double wheelsRevs;
+    double velocityBot;
+    String turnDirection;
 
-//     distanceVertical = positionValues[arrRow][0]; 
-//     distanceHorizontal = positionValues[arrRow][1];
-//     //get the distance that needs to be travelled horizontally and vertically.
+    distanceVertical = positionValues[arrRow][0]; 
+    distanceHorizontal = positionValues[arrRow][1];
+    //get the distance that needs to be travelled horizontally and vertically.
 
-//     (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
-//     distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
+    (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
+    distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
 
-//     //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
+    //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
 
-//     turnTheta;
-//     if(theta == 90){
-//         turnTheta = 90;
-//     } else {if(distanceVertical < 0){
-//         turnTheta = 90-theta;
-//     } else if(distanceVertical > 0){
-//         turnTheta = theta;
-//     } //how many degrees does robot turn?
+    turnTheta;
+    if(theta == 90){
+        turnTheta = 90;
+    } else {if(distanceVertical < 0){
+        turnTheta = 90-theta;
+    } else if(distanceVertical > 0){
+        turnTheta = theta;
+    } //how many degrees does robot turn?
 
-//     turnDirection = NULL;
-//     if(distanceHorizontal < 0){
-//         turnDirection = "Left";
-//     } else if(distanceHorizontal > 0){
-//         turnDirection = "right";
-//     } //which way does robot turn?
+    turnDirection = NULL;
+    if(distanceHorizontal < 0){
+        turnDirection = "Left";
+    } else if(distanceHorizontal > 0){
+        turnDirection = "right";
+    } //which way does robot turn?
 
-//     arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
-//     totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
+    arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
+    totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
 
-//     wheelsRevs = (distanceHyp)/(2 * Math.pi * robotRadius); //to get to final position. Excluding turn revs.
-    
-//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!put it into arcade drive to move robot!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    wheelsRevs = (distanceHyp)/(2 * Math.pi * wheelRadius); //to get to final position. Excluding turn revs.
+    velocityBot = wheelsRevs/(dT/60); //RPM
 
-//     return 1;
-// }
+    pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+
+    return 1;
+}
+
+void DriveTrain::VisionTargetDrive(double error) {
+    xEntry = table->GetEntry("X");
+    yEntry = table->GetEntry("Y");
+    double x, y;
+    xEntry.SetDouble(x);
+    yEntry.SetDouble(y); //put the network table instances into the doubles. 
+
+    double distanceHorizontal;
+    double distanceVertical;
+    double theta;
+    double turnTheta;
+    double distanceHyp;
+    double arcTurnDistance;
+    double totalDistance;
+    double wheelsRevs;
+    String turnDirection;
+
+    distanceVertical = y; 
+    distanceHorizontal = x;
+    //get the distance that needs to be travelled horizontally and vertically.
+
+    (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
+    distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
+
+    //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
+
+    turnTheta;
+    if(theta == 90){
+        turnTheta = 90;
+    } else {if(distanceVertical < 0){
+        turnTheta = 90-theta;
+    } else if(distanceVertical > 0){
+        turnTheta = theta;
+    } //how many degrees does robot turn?
+
+    turnDirection = NULL;
+    if(distanceHorizontal < 0){
+        turnDirection = "Left";
+    } else if(distanceHorizontal > 0){
+        turnDirection = "right";
+    } //which way does robot turn?
+
+    arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
+    totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
+
+    wheelsRevs = (distanceHyp)/(2 * Math.pi * wheelRadius); //to get to final position. Excluding turn revs.
+    velocityBot = wheelsRevs/(dT/60); //RPM
+
+    pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+}
 
 void DriveTrain::InitDefaultCommand()
 {
@@ -301,58 +356,6 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
     pidControllerL->SetReference(leftMotorRPM, rev::ControlType::kVelocity);
     pidControllerR->SetReference(rightMotorRPM, rev::ControlType::kVelocity);
 }
-
-// void DriveTrain::VisionTargetDrive(double error)
-// {
-//     xEntry = table->GetEntry("X");
-//     yEntry = table->GetEntry("Y");
-//     double x, y;
-//     xEntry.SetDouble(x);
-//     yEntry.SetDouble(y); //put the network table instances into the doubles. 
-
-//     double distanceHorizontal;
-//     double distanceVertical;
-//     double theta;
-//     double turnTheta;
-//     double distanceHyp;
-//     double arcTurnDistance;
-//     double totalDistance;
-//     double wheelsRevs;
-//     String turnDirection;
-
-//     distanceVertical = y; 
-//     distanceHorizontal = x;
-//     //get the distance that needs to be travelled horizontally and vertically.
-
-//     (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
-//     distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
-
-//     //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
-
-//     turnTheta;
-//     if(theta == 90){
-//         turnTheta = 90;
-//     } else {if(distanceVertical < 0){
-//         turnTheta = 90-theta;
-//     } else if(distanceVertical > 0){
-//         turnTheta = theta;
-//     } //how many degrees does robot turn?
-
-//     turnDirection = NULL;
-//     if(distanceHorizontal < 0){
-//         turnDirection = "Left";
-//     } else if(distanceHorizontal > 0){
-//         turnDirection = "right";
-//     } //which way does robot turn?
-
-//     arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
-//     totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
-
-//     wheelsRevs = (distanceHyp)/(2 * Math.pi * robotRadius); //to get to final position. Excluding turn revs.
-    
-//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!put it into arcade drive to move robot!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-// }
 
 void DriveTrain::ClosedLoopVelocityControl(double speed)
 {
