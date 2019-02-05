@@ -78,7 +78,7 @@ public:
 	void TankDriveVelocity(double left, double right, bool squaredInputs);
 	void ArcadeDrive(double leftMove, double leftRotate);
 	void ArcadeDriveVelocity(double leftMove, double leftRotate, bool squaredInputs);
-	void VisionTargetDrive(double error);
+	void VisionTargetDrive();
 	void ClosedLoopVelocityControl(double speed);
 
 	// Functions for the closed-loop velocity
