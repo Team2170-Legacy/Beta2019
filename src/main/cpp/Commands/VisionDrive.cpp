@@ -54,7 +54,7 @@ void VisionDrive::Interrupted() {
 *pre: Network table instance must exist. File must be found. 
 *post: moves robot to network table values. 
 **/
-void DriveTrain::VisionTargetDrive() {
+void VisionDrive::VisionTargetDrive() {
     xEntry = table->GetEntry("X");
     yEntry = table->GetEntry("Y");
     double x, y;
