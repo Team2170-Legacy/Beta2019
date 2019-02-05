@@ -128,6 +128,10 @@ int MotionProfilePosition(double dT, int arrRow) {
     return 1;
 }
 
+/** Takes values entered into the network table and moves the robot to specified position 
+*pre: Network table instance must exist. File must be found. 
+*post: moves robot to network table values. 
+**/
 void DriveTrain::VisionTargetDrive(double error) {
     xEntry = table->GetEntry("X");
     yEntry = table->GetEntry("Y");
