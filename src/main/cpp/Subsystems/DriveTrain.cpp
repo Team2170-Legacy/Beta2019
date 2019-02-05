@@ -439,10 +439,11 @@ double DriveTrain::getMotorRPM(int id)
 
 double DriveTrain::getRobotSpeed()
 {
+    // RPM to FPS
     double rpm = getMotorRPM(1);
     double rpm_axle = rpm / GEARING_RATIO;
 
-    double circumference = PI * WHEEL_SIZE;
+    double circumference = PI * WHEEL_DIAMETER;
 
     double speed = (rpm_axle * circumference) / 12.0 / 60.0; // [ft/s]
 
@@ -453,3 +454,37 @@ double DriveTrain::getCommandedSpeed()
 {
     return commandedSpeed;
 }
+
+void DriveTrain::TankDriveVelocityError(double left_FPS, double right_FPS, double error) {
+    // Left and right are [ft/s]
+    double left_RPM = fpsToRPM(left_FPS);
+    double right_RPM = fpsToRPM(right_FPS);
+
+    double setPointL = left_RPM + (kP_Vision * error);
+    double setPointR = right_RPM - (kP_Vision * error);
+
+    pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
+    pidControllerR->SetReference(setPointR, rev::ControlType::kVelocity);
+}
+
+double DriveTrain::fpsToRPM(double FPS) {
+    double inPerSec_wheel = FPS / 12.0;
+    double revPerSec_wheel = inPerSec_wheel / (2 * PI * WHEEL_DIAMETER);
+    double revPerSec_motor = revPerSec_wheel * GEARING_RATIO;
+
+    return revPerSec_motor * 60;
+}
+
+double DriveTrain::rpmToFPS(double rpm) {
+    double rpm_wheel = rpm / GEARING_RATIO;
+    double circumference = PI * WHEEL_DIAMETER;     // [in]
+    double speed = (rpm_wheel * circumference) / 12.0 / 60.0; // [ft/s]
+
+    return speed;
+}
+
+double DriveTrain::joystickToFPS(double joystickValue){
+    double rpm = joystickValue * maxRPM;
+
+    return rpmToFPS(rpm);
+} 
