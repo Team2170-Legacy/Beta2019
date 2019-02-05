@@ -145,8 +145,8 @@ void DriveTrain::VisionTargetDrive(double error) {
     double wheelsRevs;
     String turnDirection;
 
-    distanceVertical = y; 
-    distanceHorizontal = x;
+    distanceVertical = xsin(y); 
+    distanceHorizontal = xcos(y);
     //get the distance that needs to be travelled horizontally and vertically.
 
     (distanceVertical==0) ? theta = 90 : theta = atan((distanceVertical/distanceHorizontal)); //theta undefined? 
@@ -175,6 +175,12 @@ void DriveTrain::VisionTargetDrive(double error) {
 
     wheelsRevs = (distanceHyp)/(2 * Math.pi * wheelRadius); //to get to final position. Excluding turn revs.
     velocityBot = wheelsRevs/(dT/60); //RPM
+
+    if(turnDirection.equals("Left")){
+        pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+    } else if(turnDirection.equals("Right")){
+        pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity);
+    }
 
     pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
     pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
