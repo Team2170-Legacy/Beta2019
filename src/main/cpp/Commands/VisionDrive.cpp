@@ -49,3 +49,65 @@ void VisionDrive::End() {
 void VisionDrive::Interrupted() {
 
 }
+
+/** Takes values entered into the network table and moves the robot to specified position 
+*pre: Network table instance must exist. File must be found. 
+*post: moves robot to network table values. 
+**/
+void DriveTrain::VisionTargetDrive() {
+    xEntry = table->GetEntry("X");
+    yEntry = table->GetEntry("Y");
+    double x, y;
+    xEntry.SetDouble(x);
+    yEntry.SetDouble(y); //put the network table instances into the doubles. 
+
+    double distanceHorizontal;
+    double distanceVertical;
+    double theta;
+    double turnTheta;
+    double distanceHyp;
+    double arcTurnDistance;
+    double totalDistance;
+    double wheelsRevs;
+    String turnDirection;
+
+    distanceVertical = xsin(DriveTrain::analogGyro->GetAngle()); 
+    distanceHorizontal = xcos(DriveTrain::analogGyro->GetAngle());
+    //get the distance that needs to be travelled horizontally and vertically.
+
+    theta = Robot::driveTrain->getGyroAngle();
+    distanceHyp = Math.sqrt(Math.pow(distanceHorizontal, 2) + Math.pow(distanceVertical, 2));
+
+    //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
+
+    turnTheta;
+    if(theta == 90){
+        turnTheta = 90;
+    } else {if(distanceVertical < 0){
+        turnTheta = 90-theta;
+    } else if(distanceVertical > 0){
+        turnTheta = theta;
+    } //how many degrees does robot turn?
+
+    turnDirection = NULL;
+    if(distanceHorizontal < 0){
+        turnDirection = "Left";
+    } else if(distanceHorizontal > 0){
+        turnDirection = "right";
+    } //which way does robot turn?
+
+    arcTurnDistance = (Math.pi * robotRadius * turnTheta)/(180);
+    totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
+
+    wheelsRevs = (distanceHyp)/(2 * Math.pi * wheelRadius); //to get to final position. Excluding turn revs.
+    velocityBot = wheelsRevs/(dT/60); //RPM
+
+    if(turnDirection.equals("Left")){
+        pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+    } else if(turnDirection.equals("Right")){
+        pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity);
+    }
+
+    pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
+}
