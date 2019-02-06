@@ -25,8 +25,8 @@ VisionDrive::VisionDrive(): frc::Command() {
 // Called just before this Command runs the first time
 void VisionDrive::Initialize() {
     Robot::driveTrain->resetGyro();
-    auto inst = nt::NetworkTableInstance::GetDefault();
-    auto table = inst.GetTable("datatable"); //network table initialized.
+    //auto inst = nt::NetworkTableInstance::GetDefault();
+    //auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -34,7 +34,7 @@ void VisionDrive::Execute() {
     double currentBearing = Robot::driveTrain->getGyroAngle();
 
     Robot::driveTrain->TankDriveVelocityError(4.0, currentBearing);
-    VisionTargetDrive();
+    //VisionTargetDrive();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -57,58 +57,58 @@ void VisionDrive::Interrupted() {
 *pre: Network table instance must exist. File must be found. 
 *post: moves robot to network table values. 
 **/
-void VisionDrive::VisionTargetDrive() {
-    xEntry = table->GetEntry("X");
-    double x;
-    xEntry.SetDouble(x); //put the network table instances into the doubles. 
+// void VisionDrive::VisionTargetDrive() {
+//     xEntry = table->GetEntry("X");
+//     double x;
+//     xEntry.SetDouble(x); //put the network table instances into the doubles. 
 
-    double distanceHorizontal;
-    double distanceVertical;
-    double theta;
-    double turnTheta;
-    double distanceHyp;
-    double arcTurnDistance;
-    double totalDistance;
-    double wheelsRevs;
-    String turnDirection;
+//     double distanceHorizontal;
+//     double distanceVertical;
+//     double theta;
+//     double turnTheta;
+//     double distanceHyp;
+//     double arcTurnDistance;
+//     double totalDistance;
+//     double wheelsRevs;
+//     String turnDirection;
 
-    distanceVertical = xsin(DriveTrain::analogGyro->GetAngle()); 
-    distanceHorizontal = xcos(DriveTrain::analogGyro->GetAngle());
-    //get the distance that needs to be travelled horizontally and vertically.
+//     distanceVertical = xsin(DriveTrain::analogGyro->GetAngle()); 
+//     distanceHorizontal = xcos(DriveTrain::analogGyro->GetAngle());
+//     //get the distance that needs to be travelled horizontally and vertically.
 
-    theta = Robot::driveTrain->getGyroAngle();
-    distanceHyp = sqrt(pow(distanceHorizontal, 2) + pow(distanceVertical, 2));
+//     theta = Robot::driveTrain->getGyroAngle();
+//     distanceHyp = sqrt(pow(distanceHorizontal, 2) + pow(distanceVertical, 2));
 
-    //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
+//     //direction is controlled by distanceHorizontal, degrees is controlled by distanceVertical. 
 
-    turnTheta;
-    if(theta == 90){
-        turnTheta = 90;
-    } else {if(distanceVertical < 0){
-        turnTheta = 90-theta;
-    } else if(distanceVertical > 0){
-        turnTheta = theta;
-    } //how many degrees does robot turn?
+//     turnTheta;
+//     if(theta == 90){
+//         turnTheta = 90;
+//     } else {if(distanceVertical < 0){
+//         turnTheta = 90-theta;
+//     } else if(distanceVertical > 0){
+//         turnTheta = theta;
+//     } //how many degrees does robot turn?
 
-    turnDirection = NULL;
-    if(distanceHorizontal < 0){
-        turnDirection = "Left";
-    } else if(distanceHorizontal > 0){
-        turnDirection = "right";
-    } //which way does robot turn?
+//     turnDirection = NULL;
+//     if(distanceHorizontal < 0){
+//         turnDirection = "Left";
+//     } else if(distanceHorizontal > 0){
+//         turnDirection = "right";
+//     } //which way does robot turn?
 
-    arcTurnDistance = (PI * ROBOTRADIUS * turnTheta)/(180);
-    totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
+//     arcTurnDistance = (PI * ROBOTRADIUS * turnTheta)/(180);
+//     totalDistance = arcTurnDistance + distanceHyp;   //total distance ROBOT travels.  
 
-    wheelsRevs = (distanceHyp)/(2 * PI * WHEELRADIUS); //to get to final position. Excluding turn revs.
-    velocityBot = wheelsRevs/(dT/60); //RPM
+//     wheelsRevs = (distanceHyp)/(2 * PI * WHEELRADIUS); //to get to final position. Excluding turn revs.
+//     velocityBot = wheelsRevs/(dT/60); //RPM
 
-    if(turnDirection.equals("Left")){
-        pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
-    } else if(turnDirection.equals("Right")){
-        pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity);
-    }
+//     if(turnDirection.equals("Left")){
+//         pidControllerR.SetReference(-velocityBot, rev::ControlType::kVelocity);
+//     } else if(turnDirection.equals("Right")){
+//         pidControllerL.SetReference(velocityBot, rev::ControlType::kVelocity);
+//     }
 
-    pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
-    pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
-}
+//     pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+//     pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
+// }
