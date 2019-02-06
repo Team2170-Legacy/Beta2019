@@ -53,9 +53,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
     pidControllerL->SetFF(kFF);
     pidControllerR->SetFF(kFF);
-
-    auto inst = nt::NetworkTableInstance::GetDefault();
-    auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
 /** Takes values pre-entered into an external file and moves robot to specified positions.

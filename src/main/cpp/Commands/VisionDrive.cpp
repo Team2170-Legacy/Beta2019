@@ -25,6 +25,8 @@ VisionDrive::VisionDrive(): frc::Command() {
 // Called just before this Command runs the first time
 void VisionDrive::Initialize() {
     Robot::driveTrain->resetGyro();
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("datatable"); //network table initialized.
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -32,6 +34,7 @@ void VisionDrive::Execute() {
     double currentBearing = Robot::driveTrain->getGyroAngle();
 
     Robot::driveTrain->TankDriveVelocityError(4.0, currentBearing);
+    VisionTargetDrive();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -56,10 +59,8 @@ void VisionDrive::Interrupted() {
 **/
 void VisionDrive::VisionTargetDrive() {
     xEntry = table->GetEntry("X");
-    yEntry = table->GetEntry("Y");
-    double x, y;
-    xEntry.SetDouble(x);
-    yEntry.SetDouble(y); //put the network table instances into the doubles. 
+    double x;
+    xEntry.SetDouble(x); //put the network table instances into the doubles. 
 
     double distanceHorizontal;
     double distanceVertical;

@@ -45,8 +45,6 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMax4;
 	std::shared_ptr<frc::SpeedControllerGroup> speedControllerGroupRight;
 	std::shared_ptr<frc::DifferentialDrive> differentialDrive;
-	nt::NetworkTableEntry xEntry;
-	nt::NetworkTableEntry yEntry;
 
 	double GEARING_RATIO = 5.95;
 	int WHEEL_DIAMETER = 4; 			// [in]
@@ -61,12 +59,6 @@ private:
 	
 	// PID Gains for closed-loop velocity control FOR VISION 
 	double kP_Vision = 0;
-
-	const double vmax = 560.0; //in RPM
-	const double dT = 0.002;
-	double initialPosition = 0;		//motion profile vals to be edited later. 
-	const double robotRadius = 300.0;
-	const double wheelRadius = 30.0;
 
 	// Max RPM for motors
 	const double maxRPM = 5600;
@@ -102,9 +94,6 @@ public:
 	double getGyroAngle();
 
 	void TankDriveVelocityError(double velocity, double error);
-
-	nt::NetworkTableEntry getXEntry();
-	nt::NetworkTableEntry getYEntry();
 };
 
 #endif
