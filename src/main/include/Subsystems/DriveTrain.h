@@ -24,6 +24,11 @@
 #include "frc/Utility.h"
 #include "frc/WPIErrors.h"
 
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cmath>
 /**
  *
  *
