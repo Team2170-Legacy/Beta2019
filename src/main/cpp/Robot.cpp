@@ -52,6 +52,7 @@ void Robot::DisabledInit(){
 
 void Robot::DisabledPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
+	std::cout << Robot::driveTrain->getGyroAngle() << std::endl;
 }
 
 void Robot::AutonomousInit() {

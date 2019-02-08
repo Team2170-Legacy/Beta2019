@@ -37,7 +37,7 @@ void VisionDrive::Execute() {
     Robot::driveTrain->TankDriveVelocityError(4.0, currentBearing);
     //VisionTargetDrive();
 
-    std::cout << "Gyro running" << std::endl;
+    //std::cout << "Gyro is running" << std::endl;
 }
 
 // Make this return true when this Command no longer needs to run execute()
