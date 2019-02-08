@@ -64,7 +64,7 @@ private:
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
 	
 	// PID Gains for closed-loop velocity control FOR VISION 
-	double kP_Vision = 0;
+	double kP_Vision = 5;
 
 	// Max RPM for motors
 	const double maxRPM = 5600;

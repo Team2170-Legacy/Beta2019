@@ -400,8 +400,6 @@ double DriveTrain::getCommandedSpeed()
 void DriveTrain::TankDriveVelocityError(double velocity, double error) {
     // Left and right are [ft/s]
     double velocity_RPM = fpsToRPM(velocity);
-    error = 10;
-    kP_Vision = 10;
 
     double setPointL = -velocity_RPM - (kP_Vision * error);
     double setPointR = velocity_RPM - (kP_Vision * error);

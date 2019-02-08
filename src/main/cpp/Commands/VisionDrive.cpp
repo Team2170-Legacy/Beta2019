@@ -26,15 +26,14 @@ VisionDrive::VisionDrive(): frc::Command() {
 // Called just before this Command runs the first time
 void VisionDrive::Initialize() {
     Robot::driveTrain->resetGyro();
-    //auto inst = nt::NetworkTableInstance::GetDefault();
-    //auto table = inst.GetTable("datatable"); //network table initialized.
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("visiontable");
 }
 
 // Called repeatedly when this Command is scheduled to run
 void VisionDrive::Execute() {
-    double currentBearing = Robot::driveTrain->getGyroAngle();
-
-    Robot::driveTrain->TankDriveVelocityError(4.0, currentBearing);
+    double error = getVisionError();
+    Robot::driveTrain->TankDriveVelocityError(4.0, error);
     //VisionTargetDrive();
 
     //std::cout << "Gyro is running" << std::endl;
@@ -54,6 +53,12 @@ void VisionDrive::End() {
 // subsystems is scheduled to run
 void VisionDrive::Interrupted() {
 
+}
+
+double VisionDrive::getVisionError() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("visiontable");
+    return table->GetEntry("e_target").GetDouble(0);
 }
 
 /** Takes values entered into the network table and moves the robot to specified position 
