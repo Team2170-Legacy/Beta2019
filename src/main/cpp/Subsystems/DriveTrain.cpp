@@ -401,8 +401,10 @@ void DriveTrain::TankDriveVelocityError(double velocity, double error) {
     // Left and right are [ft/s]
     double velocity_RPM = fpsToRPM(velocity);
 
-    double setPointL = -velocity_RPM - (kP_Vision * error);
-    double setPointR = velocity_RPM - (kP_Vision * error);
+    // double setPointL = -velocity_RPM - (kP_Vision * error);
+    // double setPointR = velocity_RPM - (kP_Vision * error);
+    double setPointL = -(kP_Vision * error);
+    double setPointR = (kP_Vision * error);
 
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
     pidControllerR->SetReference(setPointR, rev::ControlType::kVelocity);
