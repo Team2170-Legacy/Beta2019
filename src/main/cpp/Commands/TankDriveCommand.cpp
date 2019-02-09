@@ -76,7 +76,6 @@ void TankDriveCommand::Execute() {
             double y = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
             Robot::driveTrain->getCANSparkMax(1)->Set(y);
             break;
-
     }
 
     if (logData) {
