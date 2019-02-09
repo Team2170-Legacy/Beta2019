@@ -84,6 +84,9 @@ public:
 	void ArcadeDriveVelocity(double leftMove, double leftRotate, bool squaredInputs);
 	void ClosedLoopVelocityControl(double speed);
 
+	// Getters for CAN Spark Max (test)
+	std::shared_ptr<rev::CANSparkMax> getCANSparkMax(int id);
+
 	// Functions for the closed-loop velocity
 	double getMotorRPM(int id);
 	double getRobotSpeed();

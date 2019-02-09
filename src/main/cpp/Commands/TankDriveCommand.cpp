@@ -72,6 +72,11 @@ void TankDriveCommand::Execute() {
             leftMove = -leftMove;
             Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
             break;
+        case testCANSparkMax:
+            double y = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+            Robot::driveTrain->getCANSparkMax(1)->Set(y);
+            break;
+
     }
 
     if (logData) {

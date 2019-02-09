@@ -368,6 +368,26 @@ void DriveTrain::ClosedLoopVelocityControl(double speed)
     //std::cout << kFF << std::endl;
 }
 
+std::shared_ptr<rev::CANSparkMax> DriveTrain::getCANSparkMax(int id) {
+    std::shared_ptr<rev::CANSparkMax> sparkMax;
+
+    switch(id) {
+        case 1:
+            sparkMax = sparkMax1;
+            break;
+        case 2:
+            sparkMax = sparkMax2;
+            break;
+        case 3:
+            sparkMax = sparkMax3;
+            break;
+        case 4:
+            sparkMax = sparkMax4;
+    }
+
+    return sparkMax;
+}
+
 double DriveTrain::getMotorRPM(int id)
 {
     double rpm;

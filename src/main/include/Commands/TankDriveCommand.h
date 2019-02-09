@@ -24,7 +24,7 @@
  */
 
 enum DriveMode {
-	tankDriveVelocity, arcadeDriveVelocity
+	tankDriveVelocity, arcadeDriveVelocity, testCANSparkMax
 };
 
 class TankDriveCommand: public frc::Command {
