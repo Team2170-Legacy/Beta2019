@@ -232,6 +232,18 @@ void DriveTrain::ArcadeDriveVelocity(double leftMove, double leftRotate, bool sq
     double moveValue = leftMove;
     double rotateValue = leftRotate;
 
+    if(moveValue > 0.0 && moveValue < 0.05){
+        moveValue = 0.0;
+    } else if(moveValue < 0.0 && moveValue > -0.05){
+        moveValue = 0.0;
+    } 
+
+    if(rotateValue > 0.0 && rotateValue < 0.05){
+        rotateValue = 0.0;
+    } else if(rotateValue > 0.0 && rotateValue < 0.05){
+        rotateValue = 0.0;
+    }
+
     static bool reported = false;
     if (!reported)
     {
