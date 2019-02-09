@@ -36,22 +36,19 @@ frc::Command(), driveMode((DriveMode) frc::Preferences::GetInstance()->GetInt("D
 
 // Called just before this Command runs the first time
 void TankDriveCommand::Initialize() {
-    left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+    //left = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    //right = Robot::oi->getJoystickRight()->GetY(frc::GenericHID::JoystickHand::kRightHand);
 
-    //leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    //leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
+    leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
     //(left!=0.0) ? 0.0 : left;
     //(right!=0.0) ? 0.0 : right;
 
-    (leftMove!=0) ? 0.0 : leftMove;
-    (leftRotate!=0) ? 0.0 : leftRotate;
-
-    Robot::driveTrain->TankDriveVelocity(left, right, false);
+    //Robot::driveTrain->TankDriveVelocity(left, right, false);
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
-    //Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
+    Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
 
     if (logData) {
         std::cout << "Timestamp [ms]" << "\t\t" << "Motor RPM" << std::endl;
@@ -71,7 +68,7 @@ void TankDriveCommand::Execute() {
             break;
         case arcadeDriveVelocity:
             leftMove = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-            leftRotate = Robot::oi->getJoystickRight()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
+            leftRotate = Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
             leftMove = -leftMove;
             Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
             break;

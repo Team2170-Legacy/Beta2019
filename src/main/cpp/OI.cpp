@@ -31,7 +31,7 @@ OI::OI() {
     joystickLeft.reset(new frc::Joystick(0));
     
     joystickButton1.reset(new frc::JoystickButton(joystickLeft.get(), 1));
-    joystickButton1->WhileHeld(new VisionDrive());
+    //joystickButton1->WhileHeld(new VisionDrive());
 
     // SmartDashboard Buttons
     frc::SmartDashboard::PutData("VisionDrive", new VisionDrive());
