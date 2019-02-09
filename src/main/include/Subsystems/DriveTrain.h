@@ -54,6 +54,7 @@ private:
 
 	double GEARING_RATIO = 5.95;
 	int WHEEL_DIAMETER = 4; 			// [in]
+	// NOTE: This variable will have to change to 6 in on the REAL robot!
 	double PI = 3.14159265358;
 
 	// Members for closed-loop velocity control
