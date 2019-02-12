@@ -126,8 +126,8 @@ int DriveTrain::MotionProfilePosition(double dT, int arrRow) {
     wheelsRevs = (distanceHyp)/(2 * PI * (WHEEL_DIAMETER/2)); //to get to final position. Excluding turn revs.
     velocityBot = wheelsRevs/(dT/60); //RPM
 
-    pidControllerL->SetReference(velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
-    pidControllerR->SetReference(-velocityBot, rev::ControlType::kVelocity);
+    pidControllerL->SetReference(-velocityBot, rev::ControlType::kVelocity); //send RPM to pid controllers. 
+    pidControllerR->SetReference(velocityBot, rev::ControlType::kVelocity);
 
     return 1;
 }
