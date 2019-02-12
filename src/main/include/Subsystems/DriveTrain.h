@@ -56,6 +56,7 @@ private:
 	int WHEEL_DIAMETER = 4; 			// [in]
 	// NOTE: This variable will have to change to 6 in on the REAL robot!
 	double PI = 3.14159265358;
+	const double ROBOTDIAMETER = 31; //inches
 
 	// Members for closed-loop velocity control
 	std::shared_ptr<rev::CANPIDController> pidControllerL;
@@ -83,6 +84,7 @@ public:
 	void ArcadeDrive(double leftMove, double leftRotate);
 	void ArcadeDriveVelocity(double leftMove, double leftRotate, bool squaredInputs);
 	void ClosedLoopVelocityControl(double speed);
+	int MotionProfilePosition(double dT, int arrRow);
 
 	// Getters for CAN Spark Max (test)
 	std::shared_ptr<rev::CANSparkMax> getCANSparkMax(int id);
