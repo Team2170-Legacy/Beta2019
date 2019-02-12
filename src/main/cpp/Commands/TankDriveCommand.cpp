@@ -42,13 +42,15 @@ void TankDriveCommand::Initialize() {
     leftMove =  Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
     leftRotate =  Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
 
-    //(left!=0.0) ? 0.0 : left;
-    //(right!=0.0) ? 0.0 : right;
+    if(arrRow != 0){
+        arrRow = 0;
+    } //zero it to start with. 
 
     //Robot::driveTrain->TankDriveVelocity(left, right, false);
     //Robot::driveTrain->ArcadeDrive(leftMove, leftRotate);
     //Robot::driveTrain->ClosedLoopVelocityControl(leftMove);
-    Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
+    //Robot::driveTrain->ArcadeDriveVelocity(leftMove, leftRotate, true);
+    Robot::driveTrain->MotionProfilePosition(dT, arrRow);
 
     if (logData) {
         std::cout << "Timestamp [ms]" << "\t\t" << "Motor RPM" << std::endl;
@@ -58,7 +60,11 @@ void TankDriveCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TankDriveCommand::Execute() {
-    double left, right, leftMove, leftRotate;
+    double left;
+    double right;
+    double leftMove;
+    double leftRotate;
+    double sparkSpeed;
 
     switch(driveMode) {
         case tankDriveVelocity:
@@ -69,12 +75,16 @@ void TankDriveCommand::Execute() {
         case arcadeDriveVelocity:
             leftMove = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
             leftRotate = Robot::oi->getJoystickLeft()->GetX(frc::GenericHID::JoystickHand::kLeftHand);
-            leftMove = -leftMove;
+            leftMove *= (-1);
             Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
             break;
         case testCANSparkMax:
-            double y = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-            Robot::driveTrain->getCANSparkMax(1)->Set(y);
+            sparkSpeed = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+            Robot::driveTrain->getCANSparkMax(1)->Set(sparkSpeed);
+            break;
+        case motionProfileDrive:
+            Robot::driveTrain->MotionProfilePosition(dT, arrRow);
+            arrRow++;
             break;
     }
 
