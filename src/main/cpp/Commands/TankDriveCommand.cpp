@@ -79,8 +79,8 @@ void TankDriveCommand::Execute() {
             Robot::driveTrain->ArcadeDriveVelocity(leftRotate, leftMove, false);
             break;
         case testCANSparkMax:
-            sparkSpeed = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-            Robot::driveTrain->getCANSparkMax(1)->Set(sparkSpeed);
+                sparkSpeed = Robot::oi->getJoystickLeft()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+                Robot::driveTrain->getCANSparkMax(1)->Set(sparkSpeed);
             break;
         case motionProfileDrive:
             Robot::driveTrain->MotionProfilePosition(dT, arrRow);
